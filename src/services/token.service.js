@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
-import TokenModel from "../models/TokenModel.js";
+import TokenRepositories from "../repositories/token.repositories.js";
 
-class TokenService {
+class TokenService extends TokenRepositories {
     constructor() {
-        this.model =  TokenModel;
+        super();
     }
 
     generateTokens(payload) {
@@ -27,29 +27,34 @@ class TokenService {
     validateRefreshToken(token) {
         try {
             const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+
             return userData;
         } catch (e) {
             return null;
         }
     }
 
-    async saveToken(userId, refreshToken) {
-        const tokenData = await this.model.findOne({user: userId})
+    async saveToken(user, refreshToken) {
+        const tokenData = await this.findOne(user);
         if (tokenData) {
             tokenData.refreshToken = refreshToken;
             return tokenData.save();
         }
-        const token = await this.model.create({user: userId, refreshToken})
+
+        const token = await this.create(user, refreshToken)
+
         return token;
     }
 
     async removeToken(refreshToken) {
-        const tokenData = await this.model.deleteOne({refreshToken})
+        const tokenData = await this.deleteOne(refreshToken);
+
         return tokenData;
     }
 
     async findToken(refreshToken) {
-        const tokenData = await this.model.findOne({refreshToken})
+        const tokenData = await this.findOne(refreshToken);
+
         return tokenData;
     }
 }
