@@ -1,4 +1,3 @@
-import {mongoUrl} from "../utils/constants.js";
 import mongoose from "mongoose";
 
 (async () => {

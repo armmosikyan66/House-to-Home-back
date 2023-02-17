@@ -4,4 +4,3 @@ export const ALREADY_EXISTS = resource => `${resource} already exists!`;
 export const NOT_EXISTS = resource => `${resource} doesn't exist!`;
 export const IS_INVALID = resource => `${resource} is invalid`;
 export const REQUIRED = resource => `${resource} is required`;
-export const mongoUrl = process.env.DB_URL;
