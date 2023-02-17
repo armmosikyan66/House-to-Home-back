@@ -1,4 +1,5 @@
 import UserService from "../services/user.service.js";
+import {SUCCESS_CODE} from "../exceptions/status-codes.js";
 
 class UserController {
     async register(req, res, next) {
@@ -40,6 +41,30 @@ class UserController {
             const userData = await UserService.refresh(refreshToken);
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json(userData);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async addFavorite(req, res, next) {
+        try {
+            const {userId, propertyId} = req.body;
+            const user  = await UserService.addFavorite(userId, propertyId);
+            res.cookie('favorites', JSON.stringify(user.favorites), { maxAge: 60 * 60 * 24 * 365, httpOnly: true });
+
+            return res.status(SUCCESS_CODE).json(user);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async removeFavorite(req, res, next) {
+        try {
+            const {userId, propertyId} = req.body;
+            const user  = await UserService.removeFavorite(userId, propertyId);
+            res.cookie('favorites', JSON.stringify(user.favorites), { maxAge: 60 * 60 * 24 * 365, httpOnly: true });
+
+            return res.status(200).json(user);
         } catch (e) {
             next(e);
         }

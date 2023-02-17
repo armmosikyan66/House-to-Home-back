@@ -16,6 +16,22 @@ class UserRepositories {
     async getById(id) {
         return await this.model.findById(id).exec();
     }
+
+    async addToFavorites(user, prd) {
+        return await this.model.findOneAndUpdate(
+            {_id: user},
+            {$addToSet: {favorites: prd}},
+            {new: true},
+        ).exec()
+    }
+
+    async removeFromFavorites(user, prd) {
+        return await this.model.findOneAndUpdate(
+            {_id: user},
+            {$pull: {favorites: prd}},
+            {new: true},
+        ).exec()
+    }
 }
 
 export default UserRepositories;

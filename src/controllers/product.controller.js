@@ -25,6 +25,36 @@ class ProductController {
             next(e);
         }
     }
+
+    async getOnePrd(req, res, next) {
+        try {
+            const product = await ProductService.getOne(req.params.id);
+            res.json(product);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getRecommended(req, res, next) {
+        try {
+            const {status, lang} = req.params;
+            const product = await ProductService.getRecommended(status, lang);
+
+            res.json(product);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getSaved(req, res, next) {
+        try {
+            const product = await ProductService.getSavedPrd(JSON.parse(req.cookies.favorites));
+
+            res.status(SUCCESS_CODE).json(product);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 export default new ProductController();

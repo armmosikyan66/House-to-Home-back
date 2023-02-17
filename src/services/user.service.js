@@ -71,6 +71,18 @@ class UserService extends UserRepositories{
         await TokenService.saveToken(userDto.id, tokens.refreshToken);
         return {...tokens, user: userDto}
     }
+
+    async addFavorite(userId, prdId) {
+        const user = await this.addToFavorites(userId, prdId);
+
+        return new UserDto(user);
+    }
+
+    async removeFavorite(userId, prdId) {
+        const user = await this.removeFromFavorites(userId, prdId);
+
+        return new UserDto(user);
+    }
 }
 
 export default new UserService();

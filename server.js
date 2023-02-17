@@ -4,7 +4,7 @@ import  express from "express"
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import errorHandler from "./src/middlewares/errorHandler.js";
-import auth from "./src/routes/auth.js";
+import auth from "./src/routes/user.js";
 import "./src/database/db.js"
 import product from "./src/routes/product.js";
 import {fileURLToPath} from "url";

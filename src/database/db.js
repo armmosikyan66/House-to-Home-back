@@ -9,7 +9,7 @@ import mongoose from "mongoose";
     };
 
     await mongoose.set('strictQuery', true);
-    await mongoose.connect("mongodb+srv://Arman:Armmosikyan2005@cluster0.zsnzjyd.mongodb.net/?retryWrites=true&w=majority", options);
+    await mongoose.connect(String(process.env.DB_URL), options);
 
     await mongoose.set("debug", true);
 
