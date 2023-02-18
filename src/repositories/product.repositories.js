@@ -1,5 +1,6 @@
 import ProductModel from "../models/ProductModel.js";
 import isObjectEmpty from "../utils/helpers/isObjectEmpty.js";
+import {ReadPreference as ObjectID} from "mongodb";
 
 class ProductRepositories {
     constructor() {
@@ -39,6 +40,38 @@ class ProductRepositories {
 
     async getSavedByIds(ids) {
         return await this.model.find({$in: ids}).exec();
+    }
+
+    async createPrd(data) {
+        return await this.model.create(data).exec();
+    }
+
+    async deletePrdById(id) {
+        return await this.model.findByIdAndDelete(id).exec();
+    }
+
+    async isIdValid(id) {
+        if (!ObjectID.isValid(id)) {
+            return false
+        }
+
+        return true;
+    }
+
+    async deleteOneImg(dirId, filename, prdId) {
+        return await this.model.findOneAndUpdate(
+            {_id: prdId},
+            {$pull: {imageUrl: `/${dirId}/${filename}`}},
+            {new: true},
+        ).exec()
+    }
+
+    async addOneImg(dirId, file) {
+        return await this.model.findOneAndUpdate(
+            {_id: dirId},
+            {$addToSet: {imageUrl: `/uploads/${file.filename}`}},
+            {new: true},
+        ).exec()
     }
 }
 
