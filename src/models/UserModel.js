@@ -1,6 +1,5 @@
 import {model, Schema} from "mongoose";
 import {ObjectId} from "mongodb";
-import bcrypt from "bcrypt";
 
 const UserSchema = new Schema({
     email: {
@@ -26,7 +25,7 @@ const UserSchema = new Schema({
         unique: false
     },
     favorites: [{
-        type: ObjectId, ref: "Properties",
+        type: ObjectId, ref: "Products",
     }],
     role: {
         type: String,
