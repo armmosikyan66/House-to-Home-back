@@ -27,7 +27,7 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, 'static')));
 app.use('/api', auth);
 app.use('/api', product);
-app.use('/admin', admin);
+app.use('/api/admin', admin);
 app.use(errorHandler);
 
 const start = async () => {

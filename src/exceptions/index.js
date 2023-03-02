@@ -3,7 +3,7 @@ import {
     BAD_REQUEST_CODE,
     VALIDATION_ERROR_CODE,
     CONFLICT_CODE,
-    NOT_FOUND_CODE
+    NOT_FOUND_CODE, FORBIDDEN_CODE
 } from './status-codes.js';
 import {
     VALIDATION_ERROR,
@@ -87,5 +87,16 @@ export class ServiceUnavailable extends Error {
                 this.errors = message;
             }
         }
+    }
+}
+
+export class AccessClosed extends Error {
+    status = FORBIDDEN_CODE;
+    message;
+    errors
+    constructor(message, errors = null) {
+        super();
+        this.message = message;
+        this.errors = errors;
     }
 }

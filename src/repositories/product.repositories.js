@@ -43,7 +43,7 @@ class ProductRepositories {
     }
 
     async createPrd(data) {
-        return await this.model.create(data).exec();
+        return await this.model.create(data);
     }
 
     async deletePrdById(id) {

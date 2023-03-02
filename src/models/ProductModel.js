@@ -27,7 +27,8 @@ const Properties = new Schema({
     }],
     public: {
         type: Boolean,
-        required: true,
+        required: false,
+        default: false,
     },
     status: {
         am: {
@@ -54,29 +55,35 @@ const Properties = new Schema({
     title: {
         am: {
             type: String,
-            required: true,
+            required: false,
+            default: ""
         },
         en: {
             type: String,
-            required: true,
+            required: false,
+            default: ""
         },
         ru: {
             type: String,
-            required: true,
+            required: false,
+            default: ""
         },
     },
     desc: {
         am: {
             type: String,
-            required: true,
+            required: false,
+            default: ""
         },
         en: {
             type: String,
-            required: true,
+            required: false,
+            default: ""
         },
         ru: {
             type: String,
-            required: true,
+            required: false,
+            default: ""
         },
     },
     floorArea: {

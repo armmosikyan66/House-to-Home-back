@@ -4,7 +4,7 @@ import {CREATED_CODE, SUCCESS_CODE} from "../exceptions/status-codes.js";
 class AdminController {
     async createPrd(req, res, next) {
         try {
-            const product = await AdminService.createNewProduct(req.body, req.files);
+            const product = await AdminService.createNewProduct(req.body, req.files, req.user);
 
             res.status(CREATED_CODE).json(product)
         } catch (e) {
@@ -35,8 +35,18 @@ class AdminController {
 
     async addImg(req, res, next) {
         try {
-            const {dirId, filename, prdId} = req.params;
+            const {prdId} = req.params;
             const product = await AdminService.addImg(prdId, req.files);
+
+            res.status(SUCCESS_CODE).json(product);
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async getProducts(req, res, next) {
+        try {
+            const product = await AdminService.getAdminPrd(Number(req.body || 1));
 
             res.status(SUCCESS_CODE).json(product);
         } catch (e) {
