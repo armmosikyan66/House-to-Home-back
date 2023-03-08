@@ -4,7 +4,7 @@ import {CREATED_CODE, SUCCESS_CODE} from "../exceptions/status-codes.js";
 class AdminController {
     async createPrd(req, res, next) {
         try {
-            const product = await AdminService.createNewProduct(req.body, req.files, req.user);
+            const product = await AdminService.createNewProduct(req.body, req.images, req.user);
 
             res.status(CREATED_CODE).json(product)
         } catch (e) {
@@ -36,7 +36,7 @@ class AdminController {
     async addImg(req, res, next) {
         try {
             const {prdId} = req.params;
-            const product = await AdminService.addImg(prdId, req.files);
+            const product = await AdminService.addImg(prdId, req.image);
 
             res.status(SUCCESS_CODE).json(product);
         } catch (e) {
@@ -46,9 +46,29 @@ class AdminController {
 
     async getProducts(req, res, next) {
         try {
-            const product = await AdminService.getAdminPrd(Number(req.body || 1));
+            const product = await AdminService.getAdminPrd(Number(req.params.page || 1));
 
             res.status(SUCCESS_CODE).json(product);
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async getUsers(req, res, next) {
+        try {
+            const users = await AdminService.getUsers(Number(req.params.page || 1));
+
+            res.status(SUCCESS_CODE).json(users);
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async updatePrd(req, res, next) {
+        try {
+            const users = await AdminService.updatePrd(req.body, req.params.prdId);
+
+            res.status(SUCCESS_CODE).json(users);
         } catch (e) {
             next(e)
         }

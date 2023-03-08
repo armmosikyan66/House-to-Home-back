@@ -21,4 +21,17 @@ const upload = multer({
     }
 });
 
-export default upload;
+const uploadMultipleFiles = (req, res, next) => {
+    upload.array('images')(req, res, (err) => {
+        if (err) {
+            return next(err);
+        }
+        const files = req.files;
+        const folderName = path.basename(path.dirname(files[0].path));
+        const fileUrls = files.map(file => `/uploads/${folderName}/${file.filename}`);
+        req.images = fileUrls;
+        next();
+    });
+};
+
+export default uploadMultipleFiles;

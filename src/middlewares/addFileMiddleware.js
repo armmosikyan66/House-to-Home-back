@@ -33,6 +33,7 @@ function addFileMiddleware(req, res, next) {
                 return next(new ServiceUnavailable(`Error saving file: ${err}`))
             }
 
+            req.image = `/uploads/${req.params.dirId}/${filename}`;
             next();
         });
     });

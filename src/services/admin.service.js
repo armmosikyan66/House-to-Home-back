@@ -2,14 +2,17 @@ import ProductRepositories from "../repositories/product.repositories.js";
 import {ValidationError} from "../exceptions/index.js";
 import parseObjectValues from "../utils/helpers/parseObjectValues.js";
 import generateUniqueNumber from "../utils/helpers/generateUniqueNumber.js";
+import UserRepositories from "../repositories/user.repositories.js";
+
 
 class AdminService extends ProductRepositories {
-    async createNewProduct(data, files, user) {
-        const imageUrl = files.map((file) => {
-            const parts = file.destination.split("\\");
-            const lastPart = parts[parts.length - 1];
-            return `/uploads/${lastPart}/${file.filename}`;
-        });
+    constructor() {
+        super();
+
+        this.userClass = new UserRepositories();
+    }
+
+    async createNewProduct(data, imageUrl, user) {
 
         const newData = parseObjectValues(data);
         let prdId = generateUniqueNumber(0, 10000);
@@ -17,7 +20,7 @@ class AdminService extends ProductRepositories {
 
         do {
             prdId = generateUniqueNumber(0, 10000)
-        } while (foundItm)
+        } while (foundItm);
 
         const newProduct = await this.createPrd({...newData, imageUrl, author: `${user.firstName} ${user.lastName}`, prdId});
 
@@ -40,14 +43,22 @@ class AdminService extends ProductRepositories {
         return removedProduct;
     }
 
-    async addImg(prdId, file) {
-        const newProduct = await this.addOneImg(prdId, file)
+    async addImg(prdId, img) {
+        const newProduct = await this.addOneImg(prdId, img)
 
         return newProduct;
     }
 
     async getAdminPrd(page) {
         return await this.getProducts(page, 10, {}, null);
+    }
+
+    async updatePrd(data, prdId) {
+        return await this.updatePrdData(data, prdId);
+    }
+
+    async getUsers(page = 1) {
+        return await this.userClass.getUsers(page);
     }
 }
 

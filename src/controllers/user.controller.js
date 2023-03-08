@@ -6,8 +6,8 @@ class UserController {
         try {
             const {email, password, phoneNumber, firstName, lastName, role} = req.body;
             const userData = await UserService.registration(email, password, phoneNumber, firstName, lastName, role);
-            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData);
+
+            res.status(SUCCESS_CODE).json(userData);
         } catch (e) {
             next(e);
         }
@@ -18,7 +18,7 @@ class UserController {
             const {email, password} = req.body;
             const userData = await UserService.login(email, password);
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData);
+            res.status(SUCCESS_CODE).json(userData);
         } catch (e) {
             next(e);
         }
@@ -29,7 +29,7 @@ class UserController {
             const {refreshToken} = req.cookies;
             const token = await UserService.logout(refreshToken);
             res.clearCookie('refreshToken');
-            return res.json(token);
+            res.status(SUCCESS_CODE).json(token);
         } catch (e) {
             next(e);
         }
@@ -40,7 +40,7 @@ class UserController {
             const {refreshToken} = req.cookies;
             const userData = await UserService.refresh(refreshToken);
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData);
+            res.status(SUCCESS_CODE).json(userData);
         } catch (e) {
             next(e);
         }
@@ -52,7 +52,7 @@ class UserController {
             const user  = await UserService.addFavorite(userId, propertyId);
             res.cookie('favorites', JSON.stringify(user.favorites), { maxAge: 60 * 60 * 24 * 365, httpOnly: true });
 
-            return res.status(SUCCESS_CODE).json(user);
+            res.status(SUCCESS_CODE).json(user);
         } catch (e) {
             next(e);
         }
@@ -64,7 +64,7 @@ class UserController {
             const user  = await UserService.removeFavorite(userId, propertyId);
             res.cookie('favorites', JSON.stringify(user.favorites), { maxAge: 60 * 60 * 24 * 365, httpOnly: true });
 
-            return res.status(200).json(user);
+            res.status(SUCCESS_CODE).json(user);
         } catch (e) {
             next(e);
         }

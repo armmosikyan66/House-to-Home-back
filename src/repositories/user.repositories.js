@@ -32,6 +32,29 @@ class UserRepositories {
             {new: true},
         ).exec()
     }
+
+    async getUsers(page, size, filters, sortBy) {
+        const skip = (page - 1) * size;
+
+        const [users, totalUsers] = await Promise.all([
+            this.model
+                .find({})
+                .sort({})
+                .skip(skip)
+                .limit(size),
+            this.model.countDocuments()
+        ]);
+
+        const totalPages = Math.ceil(totalUsers / page);
+
+        return {
+            users,
+            founded: totalUsers,
+            currentPage: page,
+            pageSize: size,
+            totalPages
+        };
+    }
 }
 
 export default UserRepositories;

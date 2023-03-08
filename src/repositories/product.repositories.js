@@ -31,7 +31,7 @@ class ProductRepositories {
     }
 
     async getOneByPrdId(prdId) {
-        return await this.model.findOne({prdId}).exec();
+        return await this.model.findOne({prdId});
     }
 
     async getRecommendedPrd(status, lang) {
@@ -60,16 +60,24 @@ class ProductRepositories {
 
     async deleteOneImg(dirId, filename, prdId) {
         return await this.model.findOneAndUpdate(
-            {_id: prdId},
-            {$pull: {imageUrl: `/${dirId}/${filename}`}},
+            {prdId: Number(prdId)},
+            {$pull: {imageUrl: `/uploads/${dirId}/${filename}`}},
             {new: true},
         ).exec()
     }
 
-    async addOneImg(dirId, file) {
+    async addOneImg(prdId, imageUrl) {
         return await this.model.findOneAndUpdate(
-            {_id: dirId},
-            {$addToSet: {imageUrl: `/uploads/${file.filename}`}},
+            {prdId: Number(prdId)},
+            {$addToSet: {imageUrl}},
+            {new: true},
+        ).exec()
+    }
+
+    async updatePrdData(data, prdId) {
+        return await this.model.findOneAndUpdate(
+            {prdId: Number(prdId)},
+            {$set: data},
             {new: true},
         ).exec()
     }

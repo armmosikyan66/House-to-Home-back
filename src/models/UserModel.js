@@ -32,6 +32,6 @@ const UserSchema = new Schema({
         default: "user",
         enum: ["user", "local", "admin"]
     },
-})
+}, {timestamps: true})
 
 export default model("User", UserSchema);
