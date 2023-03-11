@@ -3,6 +3,7 @@ import {ValidationError} from "../exceptions/index.js";
 import parseObjectValues from "../utils/helpers/parseObjectValues.js";
 import generateUniqueNumber from "../utils/helpers/generateUniqueNumber.js";
 import UserRepositories from "../repositories/user.repositories.js";
+import UserDto from "../dto/UserDto.js";
 
 
 class AdminService extends ProductRepositories {
@@ -13,7 +14,6 @@ class AdminService extends ProductRepositories {
     }
 
     async createNewProduct(data, imageUrl, user) {
-
         const newData = parseObjectValues(data);
         let prdId = generateUniqueNumber(0, 10000);
         const foundItm = await this.getOneByPrdId(prdId);
@@ -37,6 +37,12 @@ class AdminService extends ProductRepositories {
         return removedProduct;
     }
 
+    async deleteUser(id) {
+        const removedUser = await this.userClass.deleteById(id);
+
+        return removedUser;
+    }
+
     async deleteImg(dirId, filename, prdId) {
         const removedProduct = await this.deleteOneImg(dirId, filename, prdId);
 
@@ -57,8 +63,19 @@ class AdminService extends ProductRepositories {
         return await this.updatePrdData(data, prdId);
     }
 
+    async updateUser(data, userId) {
+        const updatedUser = await this.userClass.updateUserData(data, userId);
+
+        return new UserDto(updatedUser);
+    }
+
     async getUsers(page = 1) {
-        return await this.userClass.getUsers(page);
+        const data  = await this.userClass.getUsers(page);
+
+        return {
+            ...data,
+            users: data.users.map(user => new UserDto(user))
+        }
     }
 }
 

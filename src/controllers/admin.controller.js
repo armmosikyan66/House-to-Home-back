@@ -22,6 +22,16 @@ class AdminController {
         }
     }
 
+    async deleteUser(req, res, next) {
+        try {
+            const user = await AdminService.deleteUser(req.params.userId);
+
+            res.status(SUCCESS_CODE).json(user)
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async deleteImg(req, res, next) {
         try {
             const {dirId, filename, prdId} = req.params;
@@ -67,6 +77,16 @@ class AdminController {
     async updatePrd(req, res, next) {
         try {
             const users = await AdminService.updatePrd(req.body, req.params.prdId);
+
+            res.status(SUCCESS_CODE).json(users);
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async updateUser(req, res, next) {
+        try {
+            const users = await AdminService.updateUser(req.body, req.params.userId);
 
             res.status(SUCCESS_CODE).json(users);
         } catch (e) {

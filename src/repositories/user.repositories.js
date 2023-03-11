@@ -1,4 +1,5 @@
 import UserModel from "../models/UserModel.js";
+import UserDto from "../dto/UserDto.js";
 
 class UserRepositories {
     constructor() {
@@ -54,6 +55,18 @@ class UserRepositories {
             pageSize: size,
             totalPages
         };
+    }
+
+    async updateUserData(data, id) {
+        return await this.model.findByIdAndUpdate(
+            id,
+            {$set: data},
+            {new: true},
+        ).exec()
+    }
+
+    async deleteById(id) {
+        return await this.model.findByIdAndDelete(id);
     }
 }
 
