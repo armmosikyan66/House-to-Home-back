@@ -16,7 +16,7 @@ class ProductRepositories {
                 .sort(sortBy ? {"price": sortBy} : {})
                 .skip(skip)
                 .limit(size),
-            this.model.countDocuments()
+            this.model.countDocuments(!isObjectEmpty(filters) ? filters : {})
         ]);
 
         const totalPages = Math.ceil(totalProducts / page);

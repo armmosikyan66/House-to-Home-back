@@ -32,7 +32,7 @@ async function getFilteredData(filterObject, lang = "en") {
                 break;
             default:
                 filters.push({
-                    [`${key}.${lang}`]: value,
+                    [`${key}.${lang}`]: value.toLowerCase(),
                 });
                 break;
         }

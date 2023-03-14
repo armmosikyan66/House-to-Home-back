@@ -1,5 +1,6 @@
 export default class ProductDto {
     title;
+    price;
     desc;
     floorArea;
     rooms;
@@ -16,9 +17,12 @@ export default class ProductDto {
     balcony;
     plotArea;
     buildingType;
+    imageUrl;
+    status;
 
     constructor(model) {
         this.title = model.title;
+        this.price = model.price;
         this.desc = model.desc;
         this.floorArea = model.floorArea;
         this.rooms = model.rooms;
@@ -35,5 +39,7 @@ export default class ProductDto {
         this.balcony = model.balcony;
         this.plotArea = model.plotArea;
         this.buildingType = model.buildingType;
+        this.imageUrl = model.imageUrl;
+        this.status = model.status;
     }
 }
