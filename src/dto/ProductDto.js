@@ -19,9 +19,13 @@ export default class ProductDto {
     buildingType;
     imageUrl;
     status;
+    prdId;
+    id;
 
     constructor(model) {
+        this.id = model._id;
         this.title = model.title;
+        this.prdId = model.prdId;
         this.price = model.price;
         this.desc = model.desc;
         this.floorArea = model.floorArea;

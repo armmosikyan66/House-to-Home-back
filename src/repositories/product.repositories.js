@@ -39,7 +39,7 @@ class ProductRepositories {
     }
 
     async getSavedByIds(ids) {
-        return await this.model.find({$in: ids}).exec();
+        return await this.model.find({ _id: { $in: ids }}).exec();
     }
 
     async createPrd(data) {

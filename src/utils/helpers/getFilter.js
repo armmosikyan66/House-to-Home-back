@@ -5,8 +5,8 @@ async function getFilteredData(filterObject, lang = "en") {
         switch (key) {
             case "price":
             case "areaSize":
-                const from = value.from || 0;
-                const to = value.to || Infinity;
+                const from = JSON.parse(value).from || 0;
+                const to = JSON.parse(value).to || Infinity;
 
                 filters.push({
                     [key]: {$gte: from, $lte: to},
@@ -14,25 +14,25 @@ async function getFilteredData(filterObject, lang = "en") {
                 break;
             case "baths":
             case "rooms":
-                const checkSymbol = value.toString().indexOf("+");
+                const checkSymbol = JSON.parse(value).toString().indexOf("+");
 
                 if (checkSymbol !== -1) {
                     filters.push({
                         [key]: {
-                            $gte: Number.parseInt(value.slice(0, checkSymbol)),
+                            $gte: Number.parseInt(JSON.parse(value).slice(0, checkSymbol)),
                         },
                     });
                 } else {
                     filters.push({
                         [key]: {
-                            $gte: Number.parseInt(value),
+                            $gte: Number.parseInt(JSON.parse(value)),
                         },
                     });
                 }
                 break;
             default:
                 filters.push({
-                    [`${key}.${lang}`]: value.toLowerCase(),
+                    [`${key}.${lang}`]: JSON.parse(value).toLowerCase(),
                 });
                 break;
         }
