@@ -2,11 +2,14 @@ import multer from 'multer';
 import * as path from "path";
 import * as fs from "fs";
 import fileFilter from "./helpers/fileFilter.js";
+import generateUniqueNumber from "./helpers/generateUniqueNumber.js";
+
+const generatedFolder = generateUniqueNumber(1, 999999).toString();
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const directoryPath = path.join('static', 'uploads', Date.now().toString());
-        fs.mkdir(directoryPath, { recursive: true }, (err) => cb(err, directoryPath));
+    destination: function (req, file, cb) {
+        const directoryPath = path.join('static', 'uploads', generatedFolder);
+        fs.mkdir(directoryPath, {recursive: true}, (err) => cb(err, directoryPath));
     },
     filename: (req, file, cb) => {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
@@ -30,7 +33,8 @@ const uploadMultipleFiles = (req, res, next) => {
         const folderName = path.basename(path.dirname(files[0].path));
         const fileUrls = files.map(file => `/uploads/${folderName}/${file.filename}`);
         req.images = fileUrls;
-        next();
+        res.json(fileUrls)
+        // next();
     });
 };
 
