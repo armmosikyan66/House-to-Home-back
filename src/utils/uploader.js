@@ -32,9 +32,10 @@ const uploadMultipleFiles = (req, res, next) => {
         const files = req.files;
         const folderName = path.basename(path.dirname(files[0].path));
         const fileUrls = files.map(file => `/uploads/${folderName}/${file.filename}`);
+
         req.images = fileUrls;
-        res.json(fileUrls)
-        // next();
+
+        next();
     });
 };
 
