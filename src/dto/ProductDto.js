@@ -17,6 +17,7 @@ export default class ProductDto {
     balcony;
     plotArea;
     buildingType;
+    type;
     imageUrl;
     status;
     prdId;
@@ -24,6 +25,7 @@ export default class ProductDto {
 
     constructor(model) {
         this.id = model._id;
+        this.type = model.type;
         this.title = model.title;
         this.prdId = model.prdId;
         this.price = model.price;
