@@ -1,5 +1,6 @@
 export default class ProductDto {
     title;
+    type;
     price;
     desc;
     floorArea;

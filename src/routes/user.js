@@ -7,6 +7,8 @@ import checkAuth from "../middlewares/checkAuth.js";
 const router = new Router();
 
 router.post("/register", authValidation, validationChecker, UserController.register);
+router.get('/activate/:link', UserController.activate)
+router.post('/report', UserController.report)
 router.post("/login", UserController.login);
 router.post("/logout", UserController.logout);
 router.get('/refresh', UserController.refresh);

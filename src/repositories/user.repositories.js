@@ -9,7 +9,9 @@ class UserRepositories {
     async checkCandidates(email) {
         return await this.model.findOne({email}).exec();
     }
-
+    async checkActivationLink(activationLink) {
+        return await this.model.findOne({activationLink}).exec();
+    }
     async createUser(email, password, phoneNumber, firstName, lastName, role) {
         return await this.model.create({email, password, phoneNumber, firstName, lastName, role});
     }
