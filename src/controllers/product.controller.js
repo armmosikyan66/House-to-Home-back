@@ -48,7 +48,7 @@ class ProductController {
 
     async getSaved(req, res, next) {
         try {
-            const product = await ProductService.getSavedPrd(JSON.parse(req.cookies.favorites));
+            const product = await ProductService.getSavedPrd(req.body.favorites);
 
             res.status(SUCCESS_CODE).json(product);
         } catch (e) {

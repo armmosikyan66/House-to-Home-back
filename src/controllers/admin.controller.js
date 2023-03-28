@@ -66,7 +66,7 @@ class AdminController {
 
     async getUsers(req, res, next) {
         try {
-            const users = await AdminService.getUsers(Number(req.params.page || 1));
+            const users = await AdminService.getAllUsers(Number(req.params.page || 1));
 
             res.status(SUCCESS_CODE).json(users);
         } catch (e) {

@@ -50,7 +50,6 @@ class UserController {
         try {
             const {userId, propertyId} = req.body;
             const user  = await UserService.addFavorite(userId, propertyId);
-            res.cookie('favorites', JSON.stringify(user.favorites), { maxAge: 60 * 60 * 24 * 365, httpOnly: true });
 
             res.status(SUCCESS_CODE).json(user);
         } catch (e) {
@@ -62,7 +61,6 @@ class UserController {
         try {
             const {userId, propertyId} = req.body;
             const user  = await UserService.removeFavorite(userId, propertyId);
-            res.cookie('favorites', JSON.stringify(user.favorites), { maxAge: 60 * 60 * 24 * 365, httpOnly: true });
 
             res.status(SUCCESS_CODE).json(user);
         } catch (e) {

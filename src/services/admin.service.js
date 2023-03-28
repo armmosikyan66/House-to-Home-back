@@ -4,13 +4,11 @@ import parseObjectValues from "../utils/helpers/parseObjectValues.js";
 import generateUniqueNumber from "../utils/helpers/generateUniqueNumber.js";
 import UserRepositories from "../repositories/user.repositories.js";
 import UserDto from "../dto/UserDto.js";
+import aggregation from "../utils/helpers/aggregation.js";
 
-
-class AdminService extends ProductRepositories {
+class AdminService extends aggregation(ProductRepositories, UserRepositories) {
     constructor() {
         super();
-
-        this.userClass = new UserRepositories();
     }
 
     async createNewProduct(data, imageUrl, user) {
@@ -38,7 +36,7 @@ class AdminService extends ProductRepositories {
     }
 
     async deleteUser(id) {
-        const removedUser = await this.userClass.deleteById(id);
+        const removedUser = await this.deleteById(id);
 
         return removedUser;
     }
@@ -64,13 +62,13 @@ class AdminService extends ProductRepositories {
     }
 
     async updateUser(data, userId) {
-        const updatedUser = await this.userClass.updateUserData(data, userId);
+        const updatedUser = await this.updateUserData(data, userId);
 
         return new UserDto(updatedUser);
     }
 
-    async getUsers(page = 1) {
-        const data  = await this.userClass.getUsers(page);
+    async getAllUsers(page = 1) {
+        const data  = await this.getUsers(page);
 
         return {
             ...data,
