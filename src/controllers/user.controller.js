@@ -13,6 +13,26 @@ class UserController {
         }
     }
 
+    async activate(req, res, next) {
+        try {
+            const activationLink = req.params.id;
+            await UserService.activate(activationLink);
+
+            res.status(SUCCESS_CODE).redirect(process.env.CLIENT_URL);
+        } catch (e) {
+            next(e)
+        }
+    }
+    async report(req, res, next) {
+        try {
+            const {firstName, lastName, email, phoneNumber, message} = req.body;
+            await UserService.sendReport(firstName, lastName, email, phoneNumber, message);
+
+            res.status(SUCCESS_CODE).json("success")
+        } catch (e) {
+            next(e)
+        }
+    }
     async login(req, res, next) {
         try {
             const {email, password} = req.body;

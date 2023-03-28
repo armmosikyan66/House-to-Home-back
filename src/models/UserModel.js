@@ -32,6 +32,13 @@ const UserSchema = new Schema({
         default: "user",
         enum: ["user", "local", "admin"]
     },
+    isActivated: {
+        type: Boolean,
+        default: false
+    },
+    activationLink: {
+        type: String
+    }
 }, {timestamps: true})
 
 export default model("User", UserSchema);

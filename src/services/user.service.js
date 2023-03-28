@@ -1,9 +1,11 @@
 import UserRepositories from "../repositories/user.repositories.js";
 import TokenService from "./token.service.js";
+import MailService from "./mail.service.js";
 import {AuthError, BadRequest, NotFound} from "../exceptions/index.js";
 import UserDto from "../dto/UserDto.js";
 import bcrypt from "bcrypt";
 import {ALREADY_EXISTS, IS_INVALID, NOT_EXISTS} from "../utils/constants.js";
+import {v4} from 'uuid'
 
 class UserService extends UserRepositories{
     constructor() {
@@ -18,7 +20,10 @@ class UserService extends UserRepositories{
         }
 
         const hashPassword = await bcrypt.hash(password, 5);
+        const activationLink = v4();
+
         const user = await this.createUser(email, hashPassword, phoneNumber, firstName, lastName, role ?? "user");
+        await MailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
 
         const userDto = new UserDto(user);
         const tokens = TokenService.generateTokens({...userDto});
@@ -27,6 +32,18 @@ class UserService extends UserRepositories{
         return {...tokens, user: userDto}
     }
 
+    async activate(activationLink) {
+        const user = await this.checkActivationLink(activationLink);
+        if(!user) {
+            throw new BadRequest(IS_INVALID(activationLink))
+        }
+        user.isActivated = true;
+        await user.save();
+    }
+    async sendReport(firstName, lastName, email, phoneNumber, message) {
+        await MailService.sendReport(firstName, lastName, email, phoneNumber, message)
+        return
+    }
     async login(email, password) {
         const candidate = await this.checkCandidates(email);
 
