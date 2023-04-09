@@ -28,6 +28,10 @@ app.use(express.static(path.join(__dirname, 'static')));
 app.use('/api', auth);
 app.use('/api', product);
 app.use('/api/admin', admin);
+app.use((req, res) => {
+    res.status(404).send('404: Page not found');
+});
+  
 app.use(errorHandler);
 
 const start = async () => {
