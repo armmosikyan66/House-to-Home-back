@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "build": 
-    
+  "scripts": {    
     "build": "express build --output dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
