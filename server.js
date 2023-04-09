@@ -16,13 +16,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    origin: process.env.CLIENT_URL
+    origin: "http://localhost:3000"
 }));
 app.use(express.static(path.join(__dirname, 'static')));
 app.use('/api', auth);

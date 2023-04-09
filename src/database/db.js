@@ -8,7 +8,7 @@ import mongoose from "mongoose";
     };
 
     await mongoose.set('strictQuery', true);
-    await mongoose.connect(String(process.env.DB_URL), options);
+    await mongoose.connect("mongodb+srv://Arman:Armmosikyan2005@test.iayxwsk.mongodb.net/?retryWrites=true&w=majority", options);
 
     await mongoose.set("debug", true);
 

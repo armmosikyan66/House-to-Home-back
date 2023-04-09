@@ -22,8 +22,8 @@ class UserService extends UserRepositories{
         const hashPassword = await bcrypt.hash(password, 5);
         const activationLink = v4();
 
-        const user = await this.createUser(email, hashPassword, phoneNumber, firstName, lastName, role ?? "user");
-        await MailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
+        const user = await this.createUser(email, hashPassword, phoneNumber, firstName, lastName, role ?? "user",); // todo test anel 
+        // await MailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
 
         const userDto = new UserDto(user);
         const tokens = TokenService.generateTokens({...userDto});
