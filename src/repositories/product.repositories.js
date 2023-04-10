@@ -4,19 +4,19 @@ import {ReadPreference as ObjectID} from "mongodb";
 
 class ProductRepositories {
     constructor() {
-        this.model = ProductModel;
+        this.prdModel = ProductModel;
     }
 
     async getProducts(page, size, filters, sortBy) {
         const skip = (page - 1) * size;
 
         const [products, totalProducts] = await Promise.all([
-            this.model
+            this.prdModel
                 .find(!isObjectEmpty(filters) ? filters : {})
                 .sort(sortBy ? {"price": sortBy} : {})
                 .skip(skip)
                 .limit(size),
-            this.model.countDocuments(!isObjectEmpty(filters) ? filters : {})
+            this.prdModel.countDocuments(!isObjectEmpty(filters) ? filters : {})
         ]);
 
         const totalPages = Math.ceil(totalProducts / page);
@@ -31,23 +31,23 @@ class ProductRepositories {
     }
 
     async getOneByPrdId(prdId) {
-        return await this.model.findOne({prdId});
+        return await this.prdModel.findOne({prdId});
     }
 
     async getRecommendedPrd(status, lang) {
-        return await this.model.find({$and: [{[`status.${lang}`]: status}, {public: 1}]}).exec();
+        return await this.prdModel.find({$and: [{[`status.${lang}`]: status}, {public: 1}]}).exec();
     }
 
     async getSavedByIds(ids) {
-        return await this.model.find({ _id: { $in: ids }}).exec();
+        return await this.prdModel.find({ _id: { $in: ids }}).exec();
     }
 
     async createPrd(data) {
-        return await this.model.create(data);
+        return await this.prdModel.create(data);
     }
 
     async deletePrdById(id) {
-        return await this.model.findByIdAndDelete(id).exec();
+        return await this.prdModel.findByIdAndDelete(id).exec();
     }
 
     async isIdValid(id) {
@@ -59,7 +59,7 @@ class ProductRepositories {
     }
 
     async deleteOneImg(dirId, filename, prdId) {
-        return await this.model.findOneAndUpdate(
+        return await this.prdModel.findOneAndUpdate(
             {prdId: Number(prdId)},
             {$pull: {imageUrl: `/uploads/${dirId}/${filename}`}},
             {new: true},
@@ -67,7 +67,7 @@ class ProductRepositories {
     }
 
     async addOneImg(prdId, imageUrl) {
-        return await this.model.findOneAndUpdate(
+        return await this.prdModel.findOneAndUpdate(
             {prdId: Number(prdId)},
             {$addToSet: {imageUrl}},
             {new: true},
@@ -75,7 +75,7 @@ class ProductRepositories {
     }
 
     async updatePrdData(data, prdId) {
-        return await this.model.findOneAndUpdate(
+        return await this.prdModel.findOneAndUpdate(
             {prdId: Number(prdId)},
             {$set: data},
             {new: true},

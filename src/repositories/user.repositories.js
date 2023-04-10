@@ -3,25 +3,25 @@ import UserDto from "../dto/UserDto.js";
 
 class UserRepositories {
     constructor() {
-        this.model = UserModel;
+        this.userModel = UserModel;
     }
 
     async checkCandidates(email) {
-        return await this.model.findOne({email}).exec();
+        return await this.userModel.findOne({email}).exec();
     }
     async checkActivationLink(activationLink) {
         return await this.model.findOne({activationLink}).exec();
     }
     async createUser(email, password, phoneNumber, firstName, lastName, role) {
-        return await this.model.create({email, password, phoneNumber, firstName, lastName, role});
+        return await this.userModel.create({email, password, phoneNumber, firstName, lastName, role});
     }
 
     async getById(id) {
-        return await this.model.findById(id).exec();
+        return await this.userModel.findById(id).exec();
     }
 
     async addToFavorites(user, prd) {
-        return await this.model.findOneAndUpdate(
+        return await this.userModel.findOneAndUpdate(
             {_id: user},
             {$addToSet: {favorites: prd}},
             {new: true},
@@ -29,7 +29,7 @@ class UserRepositories {
     }
 
     async removeFromFavorites(user, prd) {
-        return await this.model.findOneAndUpdate(
+        return await this.userModel.findOneAndUpdate(
             {_id: user},
             {$pull: {favorites: prd}},
             {new: true},
@@ -40,12 +40,12 @@ class UserRepositories {
         const skip = (page - 1) * size;
 
         const [users, totalUsers] = await Promise.all([
-            this.model
+            this.userModel
                 .find({})
                 .sort({})
                 .skip(skip)
                 .limit(size),
-            this.model.countDocuments()
+            this.userModel.countDocuments()
         ]);
 
         const totalPages = Math.ceil(totalUsers / page);
@@ -60,7 +60,7 @@ class UserRepositories {
     }
 
     async updateUserData(data, id) {
-        return await this.model.findByIdAndUpdate(
+        return await this.userModel.findByIdAndUpdate(
             id,
             {$set: data},
             {new: true},
@@ -68,7 +68,7 @@ class UserRepositories {
     }
 
     async deleteById(id) {
-        return await this.model.findByIdAndDelete(id);
+        return await this.userModel.findByIdAndDelete(id);
     }
 }
 
