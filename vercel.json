@@ -13,7 +13,7 @@
     },
     {
       "src": "/static/uploads/(.*)",
-      "dest": "/server.js"
+      "dest": "/"
     }
   ]
 }
