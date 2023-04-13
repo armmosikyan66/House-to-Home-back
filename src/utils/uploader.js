@@ -18,6 +18,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
+    dest: path.join(cwd, 'static', 'uploads'),
     storage,
     fileFilter,
     limits: {
