@@ -11,6 +11,7 @@ import {fileURLToPath} from "url";
 import {dirname} from "path";
 import * as path from "path";
 import admin from "./src/routes/admin.js";
+import ensureStaticUploadsFoldersExist from "./src/utils/helpers/ensureStaticUploadsFoldersExist.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -25,6 +26,7 @@ app.use(cors({
     origin: "https://house-to-home-front.vercel.app"
     // origin: "http://localhost:3000"
 }));
+app.use(ensureStaticUploadsFoldersExist)
 app.use(express.static(path.join(__dirname, 'static')));
 app.use('/api', auth);
 app.use('/api', product);

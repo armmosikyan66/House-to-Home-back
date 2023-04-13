@@ -9,7 +9,7 @@ import addFileMiddleware from "../middlewares/addFileMiddleware.js";
 
 const router = new Router();
 
-router.post("/create-prd", checkAuth, checkRole(["admin", "locale"]),  uploadMultipleFiles, AdminController.createPrd);
+router.post("/create-prd", checkAuth, checkRole(["admin", "locale"]), uploadMultipleFiles, AdminController.createPrd);
 router.delete("/delete-prd/:dirId/:prdId", checkAuth, checkRole(["admin", "locale"]), deleteDirectory, AdminController.deletePrd);
 router.delete("/delete-user/:userId", checkAuth, checkRole(["admin", "locale"]), AdminController.deleteUser);
 router.delete("/delete-img/:dirId/:filename/:prdId", checkAuth, checkRole(["admin", "locale"]), deleteFileMiddleware, AdminController.deleteImg);
