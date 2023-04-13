@@ -4,16 +4,12 @@ import * as fs from "fs";
 import fileFilter from "./helpers/fileFilter.js";
 import generateUniqueNumber from "./helpers/generateUniqueNumber.js";
 
-import {fileURLToPath} from "url";
-import {dirname} from "path";
-
 const generatedFolder = generateUniqueNumber(1, 999999).toString();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const directoryPath = path.join(__dirname, '..', '..', 'static', 'uploads', generatedFolder);
+        const directoryPath = path.join(process.cwd(), 'static', 'uploads', generatedFolder);
+
         fs.mkdir(directoryPath, {recursive: true}, (err) => cb(err, directoryPath));
     },
     filename: (req, file, cb) => {
@@ -22,7 +18,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-    dest: path.join(__dirname, 'static', 'uploads'),
     storage,
     fileFilter,
     limits: {
