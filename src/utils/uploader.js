@@ -13,7 +13,7 @@ const __dirname = dirname(__filename);
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const directoryPath = path.join(__dirname, 'static', 'uploads', generatedFolder);
+        const directoryPath = path.join(__dirname, '..', '..', 'static', 'uploads', generatedFolder);
         fs.mkdir(directoryPath, {recursive: true}, (err) => cb(err, directoryPath));
     },
     filename: (req, file, cb) => {
