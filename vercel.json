@@ -10,10 +10,16 @@
     {
       "src": "/(.*)",
       "dest": "/server.js"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "server.js"
     },
     {
-      "src": "/static/uploads/(.*)",
-      "dest": "/"
+      "source": "/(.*)",
+      "destination": "/server.js"
     }
   ]
 }
