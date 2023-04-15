@@ -22,8 +22,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    // origin: "https://house-to-home-front.vercel.app"
-    origin: "http://localhost:3000"
+    origin: "https://house-to-home-front.vercel.app"
+    //origin: "http://localhost:3000"
 }));
 app.use(express.static(path.join(__dirname, 'static')));
 app.use('/api', auth);
