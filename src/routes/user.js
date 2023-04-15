@@ -20,7 +20,7 @@ router.post("/logout", UserController.logout);
 router.get('/refresh', UserController.refresh);
 router.post("/add-favorite", checkAuth, UserController.addFavorite);
 router.post("/remove-favorite", checkAuth, UserController.removeFavorite);
-router.post("/api/check", (req, res) => {
+router.post("/check", (req, res) => {
     res.status(200).json({
         status: "success",
         dirname: __dirname,
