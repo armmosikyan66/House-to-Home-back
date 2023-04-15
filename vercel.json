@@ -1,18 +1,7 @@
 {
   "version": 2,
   "builds": [
-    { "src": "server.js", "use": "@vercel/node" },
-    {
-      "src": "src/**/*",
-      "use": "@vercel/static-build",
-      "config": {
-        "output": "public"
-      }
-    },
-    {
-      "src": "static/**/*", 
-      "use": "@vercel/static"
-    }
+    { "src": "**/*.js", "use": "@now/node" }
   ],
   "routes": [
     {
@@ -24,6 +13,10 @@
     {
       "source": "/api/:path*",
       "destination": "/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/$1"
     }
   ],
   "headers": [
