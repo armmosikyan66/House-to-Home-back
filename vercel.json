@@ -9,16 +9,7 @@
       "dest": "/server.js"
     }
   ],
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/$1"
-    }
-  ],
+  "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }],
   "headers": [
     {
       "source": "/api/:path*",
