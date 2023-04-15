@@ -20,14 +20,5 @@
       "dest": "/server.js"
     }
   ],
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/server.js"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/server.js"
-    }
-  ]
+  "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }]
 }
