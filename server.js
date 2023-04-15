@@ -30,13 +30,7 @@ app.use('/api', auth);
 app.use('/api', product);
 app.use('/api/admin', admin);
 app.use((req, res) => {
-    // res.status(404).send('404: Page not found');
-
-    res.status(200).json({
-        status: "success",
-        dirname: __dirname,
-        process: process.cwd()
-    })
+    res.status(404).send('404: Page not found');
 });
   
 app.use(errorHandler);
