@@ -8,6 +8,7 @@ const generatedFolder = generateUniqueNumber(1, 999999).toString();
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
+        console.log(process.cwd(), path.join(process.cwd(), 'static', 'uploads', generatedFolder));
         const directoryPath = path.join(process.cwd(), 'static', 'uploads', generatedFolder);
 
         fs.mkdir(directoryPath, {recursive: true}, (err) => cb(err, directoryPath));
