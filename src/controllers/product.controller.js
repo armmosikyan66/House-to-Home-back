@@ -8,6 +8,7 @@ class ProductController {
         try {
             const {lang, page} = req.params;
             const product = await ProductService.getAll(lang, page, req.body);
+            console.log(req.body)
 
             res.status(SUCCESS_CODE).json(product);
         } catch (e) {

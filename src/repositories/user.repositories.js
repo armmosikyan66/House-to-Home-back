@@ -1,5 +1,6 @@
 import UserModel from "../models/UserModel.js";
 import UserDto from "../dto/UserDto.js";
+import isObjectEmpty from "../utils/helpers/isObjectEmpty.js";
 
 class UserRepositories {
     constructor() {
@@ -36,16 +37,16 @@ class UserRepositories {
         ).exec()
     }
 
-    async getUsers(page, size, filters, sortBy) {
+    async getUsers(page, size, search) {
         const skip = (page - 1) * size;
 
         const [users, totalUsers] = await Promise.all([
             this.userModel
-                .find({})
+                .find(!isObjectEmpty(search) ? search : {})
                 .sort({})
                 .skip(skip)
                 .limit(size),
-            this.userModel.countDocuments()
+            this.userModel.countDocuments(!isObjectEmpty(search) ? search : {})
         ]);
 
         const totalPages = Math.ceil(totalUsers / page);

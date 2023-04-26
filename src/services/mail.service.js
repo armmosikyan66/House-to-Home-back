@@ -8,7 +8,7 @@ class MailService {
             secure: false,
             auth: {
                 user: "gagikharutyunyan189@gmail.com",
-                pass: "wplyerzpuzqvmkzx"
+                pass: "gdqyuutfshtotgnt"
             }
         })
     }

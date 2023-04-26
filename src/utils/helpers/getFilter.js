@@ -1,4 +1,4 @@
-async function getFilteredData(filterObject, lang = "en") {
+async function  getFilteredData(filterObject, lang = "en") {
     const filters = [];
 
     for (const [key, value] of Object.entries(filterObject)) {
