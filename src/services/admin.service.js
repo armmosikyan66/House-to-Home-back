@@ -5,6 +5,7 @@ import generateUniqueNumber from "../utils/helpers/generateUniqueNumber.js";
 import UserRepositories from "../repositories/user.repositories.js";
 import UserDto from "../dto/UserDto.js";
 import aggregation from "../utils/helpers/aggregation.js";
+import getSearch from "../utils/helpers/getSearch.js";
 
 class AdminService extends aggregation(ProductRepositories, UserRepositories) {
     constructor() {
@@ -53,8 +54,10 @@ class AdminService extends aggregation(ProductRepositories, UserRepositories) {
         return newProduct;
     }
 
-    async getAdminPrd(page) {
-        return await this.getProducts(page, 10, {}, null);
+    async getAdminPrd(page, searchBy = {}) {
+        const search = await getSearch(searchBy)
+
+        return await this.getProducts(page, 10, {}, null, search);
     }
 
     async updatePrd(data, prdId) {
@@ -67,8 +70,10 @@ class AdminService extends aggregation(ProductRepositories, UserRepositories) {
         return new UserDto(updatedUser);
     }
 
-    async getAllUsers(page = 1) {
-        const data  = await this.getUsers(page);
+    async getAllUsers(page = 1, searchBy = {}) {
+        const search = await getSearch(searchBy)
+
+        const data  = await this.getUsers(page, 10, search);
 
         return {
             ...data,

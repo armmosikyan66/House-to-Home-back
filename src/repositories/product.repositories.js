@@ -7,16 +7,22 @@ class ProductRepositories {
         this.prdModel = ProductModel;
     }
 
-    async getProducts(page, size, filters, sortBy) {
+    async getProducts(page, size, filters, sortBy, search) {
         const skip = (page - 1) * size;
 
         const [products, totalProducts] = await Promise.all([
             this.prdModel
-                .find(!isObjectEmpty(filters) ? filters : {})
+                .find({
+                    ...(!isObjectEmpty(search) ? search : {}),
+                    ...(!isObjectEmpty(filters) ? filters : {})
+                })
                 .sort(sortBy ? {"price": sortBy} : {})
                 .skip(skip)
                 .limit(size),
-            this.prdModel.countDocuments(!isObjectEmpty(filters) ? filters : {})
+            this.prdModel.countDocuments({
+                ...(!isObjectEmpty(search) ? search : {}),
+                ...(!isObjectEmpty(filters) ? filters : {})
+            })
         ]);
 
         const totalPages = Math.ceil(totalProducts / page);

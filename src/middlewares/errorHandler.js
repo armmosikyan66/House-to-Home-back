@@ -16,11 +16,11 @@ export default async (err, req, res, next) => {
     }
 
     let status = err.status || BAD_REQUEST_CODE;
-
     return res.status(status).json({
         status: status,
         message: err.message || "",
         errors: err.errors || null,
         body: req.body
     });
+
 };

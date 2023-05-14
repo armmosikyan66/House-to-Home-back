@@ -5,8 +5,9 @@ import getFilteredData from "../utils/helpers/getFilter.js";
 class ProductService extends ProductRepositories {
     async getAll(lang, page = 1, filterBy = {}, sortBy = null) {
         const filters = await getFilteredData(filterBy, lang);
+        console.log(filterBy)
 
-        const {founded, products} = await this.getProducts(page, 10, filters, sortBy);
+        const {founded, products} = await this.getProducts(page, 10, filters, sortBy, {});
 
         return {
             founded,

@@ -56,8 +56,7 @@ class AdminController {
 
     async getProducts(req, res, next) {
         try {
-            const product = await AdminService.getAdminPrd(Number(req.params.page || 1));
-
+            const product = await AdminService.getAdminPrd(Number(req.params.page || 1), req.body);
             res.status(SUCCESS_CODE).json(product);
         } catch (e) {
             next(e)
@@ -66,7 +65,7 @@ class AdminController {
 
     async getUsers(req, res, next) {
         try {
-            const users = await AdminService.getAllUsers(Number(req.params.page || 1));
+            const users = await AdminService.getAllUsers(Number(req.params.page || 1), req.body);
 
             res.status(SUCCESS_CODE).json(users);
         } catch (e) {
