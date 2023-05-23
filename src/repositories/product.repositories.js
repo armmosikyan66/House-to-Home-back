@@ -53,16 +53,18 @@ class ProductRepositories {
     }
 
     async deletePrdById(id) {
-        return await this.prdModel.findByIdAndDelete(id).exec();
+        return await this.prdModel.deleteOne({prdId: id}).exec();
     }
 
     async isIdValid(id) {
-        if (!ObjectID.isValid(id)) {
+        const checkPrd = await this.prdModel.findOne({prdId: id}).exec();
+        if (!checkPrd) {
             return false
         }
 
         return true;
     }
+
 
     async deleteOneImg(dirId, filename, prdId) {
         return await this.prdModel.findOneAndUpdate(

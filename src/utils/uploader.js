@@ -4,7 +4,7 @@ import * as fs from "fs";
 import fileFilter from "./helpers/fileFilter.js";
 import generateUniqueNumber from "./helpers/generateUniqueNumber.js";
 
-const generatedFolder = generateUniqueNumber(1, 999999).toString();
+let generatedFolder;
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -25,6 +25,7 @@ const upload = multer({
 });
 
 const uploadMultipleFiles = (req, res, next) => {
+    generatedFolder = generateUniqueNumber(1, 999999).toString();
     upload.array('images')(req, res, (err) => {
         if (err) {
             return next(err);

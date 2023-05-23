@@ -11,6 +11,7 @@ async function deleteDirectory(req, res, next) {
             return next(new NotFound("Invalid directory ID"))
         }
 
+
         await fs.rm(dirPath, {recursive: true});
 
         next();
