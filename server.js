@@ -20,6 +20,7 @@ const PORT = process.env.PORT || 5000;
 const whitelist = [
   "https://house-to-home-front.vercel.app",
   "http://localhost:3000",
+  "https://house-to-home.onrender.com"
 ];
 const corsOptionsDelegate = function (req, callback) {
   let corsOptions = { credentials: true };
