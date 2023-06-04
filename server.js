@@ -38,14 +38,6 @@ app.use("/api", auth);
 app.use("/api", product);
 app.use("/api/admin", admin);
 app.use((req, res) => {
-  
-   // Set a cookie in the response
-  res.cookie('myCookie', 'cookieValue', {
-    maxAge: 86400000, // Cookie expires after 24 hours
-    httpOnly: true, // Cookie is not accessible from client-side JavaScript
-    secure: true, // Cookie is only sent over HTTPS
-  });
-  
   res.status(404).send(`404: Page not found`);
 });
 
