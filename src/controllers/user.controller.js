@@ -37,7 +37,15 @@ class UserController {
         try {
             const {email, password} = req.body;
             const userData = await UserService.login(email, password);
-            res.cookie('refreshToken', userData.refreshToken, {expires:  30 * 24 * 60 * 60 * 1000, maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            
+            const expirationTime = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours from now
+
+            res.cookie('refreshToken', userData.refreshToken, {
+                expires: expirationTime,
+                httpOnly: true,
+                secure: true, 
+            });
+            
             res.status(SUCCESS_CODE).json(userData);
         } catch (e) {
             next(e);
@@ -59,7 +67,13 @@ class UserController {
         try {
             const {refreshToken} = req.cookies;
             const userData = await UserService.refresh(refreshToken);
-            res.cookie('refreshToken', userData.refreshToken, {expires:  30 * 24 * 60 * 60 * 1000, maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            const expirationTime = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours from now
+
+            res.cookie('refreshToken', userData.refreshToken, {
+                expires: expirationTime,
+                httpOnly: true,
+                secure: true, 
+            });
             res.status(SUCCESS_CODE).json(userData);
         } catch (e) {
             next(e);
