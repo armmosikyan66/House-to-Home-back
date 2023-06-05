@@ -72,12 +72,13 @@ class UserService extends UserRepositories{
     }
 
     async refresh(user) {
-        const tokens = TokenService.generateTokens(JSON.parse(JSON.stringify(user)));
-        await new TokenRepositories().findAndModify({user: user._id}, { token: tokens.refreshToken })
+        const userDto = new UserDto(user);
+        const tokens = TokenService.generateTokens({...userDto});
+        await new TokenRepositories().findAndModify({user: userDto.id}, { token: tokens.refreshToken })
 
         return {
             ...tokens,
-            user: new UserDto(user),
+            user: userDto,
         }
     }
 
