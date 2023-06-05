@@ -22,11 +22,11 @@ export default function (req, res, next) {
 
         new UserRepositories().getById(userData?.id).then(cond => {
             if (!cond) {
-                throw new NotFound(NOT_EXISTS("User"));
+                return next(new NotFound(NOT_EXISTS("User")));
             }
-            new TokenRepositories().findOne({user: cond._id}).then(res => {
+            new TokenRepositories().findOne({user: cond?._id}).then(res => {
                 if (!res) {
-                    throw new NotFound(NOT_EXISTS("User"));
+                    return next(new NotFound(NOT_EXISTS("User")));
                 }
                 req.user = cond;
                 next();
