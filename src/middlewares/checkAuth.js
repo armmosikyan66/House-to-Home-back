@@ -5,6 +5,7 @@ import UserRepositories from "../repositories/user.repositories.js";
 import TokenRepositories from "../repositories/token.repositories.js";
 
 export default function (req, res, next) {
+    console.log(req.headers , "---------------")
     try {
         const authorizationHeader = req.headers.authorization;
 
@@ -17,7 +18,7 @@ export default function (req, res, next) {
         if (!accessToken) {
             return next(new AuthError("token not found"));
         }
-        console.log(accessToken, "----------------")
+
         const userData = TokenService.validateRefreshToken(JSON.parse(accessToken));
         new UserRepositories().getById(userData._id).then(cond => {
             if (!cond) {
