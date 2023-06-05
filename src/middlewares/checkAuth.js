@@ -1,6 +1,8 @@
-import {AuthError} from "../exceptions/index.js";
+import {AuthError, NotFound} from "../exceptions/index.js";
 import TokenService from "../services/token.service.js";
-import {REQUIRED} from "../utils/constants.js";
+import {NOT_EXISTS, REQUIRED} from "../utils/constants.js";
+import UserRepositories from "../repositories/user.repositories.js";
+import TokenRepositories from "../repositories/token.repositories.js";
 
 export default function (req, res, next) {
     try {
@@ -17,13 +19,18 @@ export default function (req, res, next) {
         }
 
         const userData = TokenService.validateAccessToken(accessToken);
-
-        if (!userData) {
-            return next(new AuthError("user not authorized"));
-        }
-
-        req.user = userData;
-        next();
+        new UserRepositories().getById(userData._id).then(cond => {
+            if (!cond) {
+                throw new NotFound(NOT_EXISTS("User"));
+            }
+            new TokenRepositories().findOne({user: cond.id}).then(res => {
+                if (!res) {
+                    throw new NotFound(NOT_EXISTS("User"));
+                }
+                req.user = cond;
+                next();
+            })
+        });
     } catch (e) {
         return next(new AuthError(e.message));
     }

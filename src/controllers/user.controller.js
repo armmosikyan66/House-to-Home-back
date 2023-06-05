@@ -65,9 +65,8 @@ class UserController {
 
     async refresh(req, res, next) {
         try {
-            const {refreshToken} = req.cookies;
-            console.log({refreshToken}, "----------------------")
-            const userData = await UserService.refresh(refreshToken);
+            const user = req.user;
+            const userData = await UserService.refresh(user);
             const expirationTime = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours from now
 
             res.cookie('refreshToken', userData.refreshToken, {

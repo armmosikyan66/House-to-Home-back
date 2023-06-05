@@ -6,6 +6,7 @@ import UserDto from "../dto/UserDto.js";
 import bcrypt from "bcrypt";
 import {ALREADY_EXISTS, IS_INVALID, NOT_EXISTS} from "../utils/constants.js";
 import {v4} from 'uuid'
+import TokenRepositories from "../repositories/token.repositories.js";
 
 class UserService extends UserRepositories{
     constructor() {
@@ -70,23 +71,14 @@ class UserService extends UserRepositories{
         return token;
     }
 
-    async refresh(refreshToken) {
-        if (!refreshToken) {
-            throw new AuthError("not Authorized to refresh");
+    async refresh(user) {
+        const tokens = TokenService.generateTokens(JSON.parse(JSON.stringify(user)));
+        await new TokenRepositories().findAndModify({user: user._id}, { token: tokens.refreshToken })
+
+        return {
+            ...tokens,
+            user: new UserDto(user),
         }
-        const userData = TokenService.validateRefreshToken(refreshToken);
-        const tokenFromDb = await TokenService.findToken(refreshToken);
-
-        if (!userData || !tokenFromDb) {
-            throw new AuthError("not Authorized to refresh");
-        }
-
-        const user = await this.getById(userData.id);
-        const userDto = new UserDto(user);
-        const tokens = TokenService.generateTokens({...userDto});
-
-        await TokenService.saveToken(userDto.id, tokens.refreshToken);
-        return {...tokens, user: userDto}
     }
 
     async addFavorite(userId, prdId) {
