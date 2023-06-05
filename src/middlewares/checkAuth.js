@@ -12,13 +12,13 @@ export default function (req, res, next) {
             return next(new Error(REQUIRED("Authorization Header ")));
         }
 
-        const accessToken = authorizationHeader.split(" ")[1];
+        const refreshToken = authorizationHeader.split(" ")[1];
 
-        if (!accessToken) {
+        if (!refreshToken) {
             return next(new AuthError("token not found"));
         }
 
-        const userData = TokenService.validateRefreshToken(accessToken);
+        const userData = TokenService.validateRefreshToken(refreshToken);
         new UserRepositories().getById(userData._id).then(cond => {
             if (!cond) {
                 throw new NotFound(NOT_EXISTS("User"));
