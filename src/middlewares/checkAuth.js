@@ -18,7 +18,7 @@ export default function (req, res, next) {
             return next(new AuthError("token not found"));
         }
 
-        const userData = TokenService.validateAccessToken(accessToken);
+        const userData = TokenService.validateRefreshToken(accessToken);
         new UserRepositories().getById(userData._id).then(cond => {
             if (!cond) {
                 throw new NotFound(NOT_EXISTS("User"));
