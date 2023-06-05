@@ -23,7 +23,7 @@ export default function (req, res, next) {
             if (!cond) {
                 throw new NotFound(NOT_EXISTS("User"));
             }
-            new TokenRepositories().findOne({user: cond.id}).then(res => {
+            new TokenRepositories().findOne({user: cond._id}).then(res => {
                 if (!res) {
                     throw new NotFound(NOT_EXISTS("User"));
                 }
