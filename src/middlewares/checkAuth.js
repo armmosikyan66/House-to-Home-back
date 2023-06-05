@@ -19,7 +19,7 @@ export default function (req, res, next) {
         }
 
         const userData = TokenService.validateRefreshToken(refreshToken);
-        new UserRepositories().getById(userData._id).then(cond => {
+        new UserRepositories().getById(userData.id).then(cond => {
             if (!cond) {
                 throw new NotFound(NOT_EXISTS("User"));
             }
