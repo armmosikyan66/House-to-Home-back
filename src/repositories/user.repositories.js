@@ -8,10 +8,10 @@ class UserRepositories {
     }
 
     async checkCandidates(email) {
-        return await this.userModel.findOne({email}).exec();
+        return await this.userModel.findOne({email});
     }
     async checkActivationLink(activationLink) {
-        return await this.model.findOne({activationLink}).exec();
+        return await this.userModel.findOne({activationLink}).exec();
     }
     async createUser(email, password, phoneNumber, firstName, lastName, role) {
         return await this.userModel.create({email, password, phoneNumber, firstName, lastName, role});
