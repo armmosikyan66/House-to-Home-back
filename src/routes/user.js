@@ -11,7 +11,7 @@ router.get('/activate/:link', UserController.activate)
 router.post('/report', UserController.report)
 router.post("/login", UserController.login);
 router.post("/logout", UserController.logout);
-router.get('/refresh', UserController.refresh);
+router.get('/refresh', checkAuth, UserController.refresh);
 router.post("/add-favorite", checkAuth, UserController.addFavorite);
 router.post("/remove-favorite", checkAuth, UserController.removeFavorite);
 
