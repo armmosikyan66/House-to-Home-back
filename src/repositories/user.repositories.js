@@ -8,7 +8,7 @@ class UserRepositories {
     }
 
     async checkCandidates(email) {
-        return await this.userModel.findOne({email});
+        return await this.userModel.findOne({email}).exec();
     }
     async checkActivationLink(activationLink) {
         return await this.userModel.findOne({activationLink}).exec();

@@ -38,7 +38,7 @@ class TokenService extends TokenRepositories {
     }
 
     async saveToken(user, refreshToken) {
-        const tokenData = await this.findOne(user);
+        const tokenData = await this.findOne({user});
         if (tokenData) {
             tokenData.refreshToken = refreshToken;
             return tokenData.save();
