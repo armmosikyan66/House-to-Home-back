@@ -20,7 +20,7 @@ class TokenService extends TokenRepositories {
 
     validateAccessToken(token) {
         try {
-            const userData = jwt.verify(token.toJSON(), JWT_ACCESS_SECRET);
+            const userData = jwt.verify(token, JWT_ACCESS_SECRET);
             return userData;
         } catch (e) {
             return null;
@@ -29,7 +29,7 @@ class TokenService extends TokenRepositories {
 
     validateRefreshToken(token) {
         try {
-            const userData = jwt.verify(token.toJSON(), JWT_REFRESH_SECRET);
+            const userData = jwt.verify(token, JWT_REFRESH_SECRET);
 
             return userData;
         } catch (e) {
