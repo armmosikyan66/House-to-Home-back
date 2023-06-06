@@ -22,7 +22,7 @@ async function getSearchedData(searchObject) {
                 break;
         }
     }
-    return { $and: searchTerm };
+    return searchTerm?.length ? { $and: searchTerm } : {};
 }
 
 export default getSearchedData;
