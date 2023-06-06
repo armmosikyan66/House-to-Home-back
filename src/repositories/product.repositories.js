@@ -13,14 +13,14 @@ class ProductRepositories {
         const [products, totalProducts] = await Promise.all([
             this.prdModel
                 .find({
-                    ...(!isObjectEmpty(search) ? search : {}),
+                    // ...(!isObjectEmpty(search) ? search : {}),
                     ...(!isObjectEmpty(filters) ? filters : {})
                 })
                 .sort(sortBy ? {"price": sortBy} : {})
                 .skip(skip)
                 .limit(size),
             this.prdModel.countDocuments({
-                ...(!isObjectEmpty(search) ? search : {}),
+              //  ...(!isObjectEmpty(search) ? search : {}),
                 ...(!isObjectEmpty(filters) ? filters : {})
             })
         ]);
